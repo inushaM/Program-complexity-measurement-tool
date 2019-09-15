@@ -5,10 +5,18 @@ import com.spm.projectws.model.CodeLine;
 import com.spm.projectws.repository.CodeLineRepository;
 import com.spm.projectws.repository.CodeRepository;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.regex.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -23,7 +31,10 @@ public class CodeService {
     @Autowired
     CodeRepository codeRepository;
     
-    public void SaveSourceCode(String sourceCode, String codeName){
+    @PersistenceContext 
+    EntityManager em; 
+    
+    public String SaveSourceCode(String sourceCode, String codeName){
         
         //Split the code line by line
         Pattern ptn = Pattern.compile("\\r?\\n");
@@ -58,9 +69,11 @@ public class CodeService {
         codeFind.setCodeKeyName(codeName);
         codeFind.setCodeNumber(uniqueKey);
         codeRepository.save(codeFind);
+        
+        return uniqueKey;
     }
     
-    public void CalculateCI(String CodeKeyName){
+    public Integer CalculateCI(String CodeKeyName){
         
         //find code KeyNumber
         CodeFind codeFind = codeRepository.findCodeKey(CodeKeyName);
@@ -97,17 +110,41 @@ public class CodeService {
                 implementsNo = implementsNo + commaNo;
             }
         }
-
-        //save CCI in all the code lines
-        for (CodeLine cl : allCode) {
-                updateCI(extendsNo + implementsNo ,cl.getId());
+        
+        int ciValue = 0;
+        
+        if(extendsNo == 0 && implementsNo == 0){
+             //save CCI in all the code lines
+            for (CodeLine codeLine : allCode) {
+                ciValue = 1;
+                codeLine.setCi(ciValue);
+                codeLineRepository.save(codeLine);
+            }
+        }else{
+            //save CCI in all the code lines
+            for (CodeLine codeLine : allCode) {
+                ciValue = extendsNo + implementsNo;
+                codeLine.setCi(ciValue);
+                codeLineRepository.save(codeLine);
+            }
         }
+        return ciValue;
     }
     
-    public void updateCI(Integer CI,Integer id){
-        codeLineRepository.updateCI(CI,id);
-    }
-    
+    public List<CodeLine> getAllSourceCodeByCodeNumber(String codeNumber) {
+        
+        CriteriaBuilder cb = em.getCriteriaBuilder(); 
+        CriteriaQuery<CodeLine> cq = cb.createQuery(CodeLine.class); 
  
-    
+        Root<CodeLine> codeLine = cq.from(CodeLine.class); 
+        Predicate idPredicate = cb.equal(codeLine.get("codeNumber"), codeNumber); 
+        cq.where(idPredicate); 
+        
+        TypedQuery<CodeLine> query = em.createQuery(cq); 
+         
+        //get Object list exeuting query 
+        List<CodeLine> codeLineList = query.getResultList(); 
+
+        return codeLineList;
+    }
 }

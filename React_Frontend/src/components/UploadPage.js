@@ -3,28 +3,19 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import constant from './constant'
 
-
 class Add_Assignment_Component extends React.Component {
-
 
     constructor(props) {
         super(props);
         this.state = {
             file: '',
-            codeName:''
+            codeName:'',
+            codeNumber:'',
+            conditionValue:'',
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onChangeFile = this.onChangeFile.bind(this);
-        this.onCourseChange = this.onCourseChange.bind(this);
-        this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeDueDate = this.onChangeDueDate.bind(this);
-        this.onChangeStartDate = this.onChangeStartDate.bind(this);
         this.onChangeCodeKeyName = this.onChangeCodeKeyName.bind(this);
-        this.countryData = [
-            {value: 'SE1010', name: 'SE1010'},
-            {value: 'SE1020', name: 'SE2020'}
-        ];
-
 
     }
     onFormSubmit(e) {
@@ -33,59 +24,22 @@ class Add_Assignment_Component extends React.Component {
 
         data.append("file", this.state.file);
         data.append("codename", this.state.codeName);
-        // data.append("assignmentName", this.state.assignmentName);
-        // data.append("description", this.state.description);
-        // data.append("dueDate", this.state.dueDate);
-        // data.append("startDate", this.state.startDate);
 
+        this.setState({conditionValue: "true"});
         axios.post(constant()+'/sendfile', data).then(res => {
+            this.setState({conditionValue: "false"});
+            this.setState({codeNumber: res.data});
+            // alert(`Calculated successfully`);
             console.log(res);
         }).catch(err => {
+            alert(`Calculation error`);
             console.log(err);
         });
-
-        this.state = {
-            file: ''
-
-        };
-    }
-
-    componentDidMount() {
-        axios.get(constant()+'/getcourse').then(
-            data => {
-                this.setState({
-                    Courses: data.data
-                })
-            }
-        )
     }
 
     onChangeFile(e) {
         this.setState({
             file: e.target.files[0]
-        })
-    }
-
-    onChangeDescription(e) {
-        this.setState({
-            description: e.target.value
-        })
-    }
-
-    onChangeDueDate(e) {
-        this.setState({
-            dueDate: e.target.value
-        })
-    }
-    onCourseChange(e) {
-        this.setState({
-            course: e.target.value
-        })
-    }
-
-    onChangeStartDate(e) {
-        this.setState({
-            startDate: e.target.value
         })
     }
 
@@ -96,7 +50,39 @@ class Add_Assignment_Component extends React.Component {
 
     }
 
+    viewResultButtonHandler = () => {
+        this.props.history.push({
+            pathname : '/ViewResult',
+            state: { detail: this.state.codeNumber}
+          });
+        
+    }
+
     render() {
+
+        const isListAvailable = this.state.codeNumber;
+        const isProcessing = this.state.conditionValue;
+
+        let button;
+        let viewMessageCalcutating;
+        let viewMessageSuccessful;
+
+        if (isListAvailable != '') {
+          button = <button type="button" className="btn btn-outline-success resultViewBtn" onClick={this.viewResultButtonHandler}>View Result</button>;
+        } 
+
+        if (isProcessing === 'true') {
+            viewMessageCalcutating = <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Calcutating!</strong> Please wait.
+          </div>
+        } 
+
+        if (isListAvailable != '') {
+            viewMessageSuccessful = <div class="alert alert-success" role="alert">
+            Successfully Calculated.
+          </div>
+          } 
+
         return (
             <div className="container" style={{backgroundColor: "#FFF"}}>
                 <br/><br/><br/>
@@ -118,17 +104,9 @@ class Add_Assignment_Component extends React.Component {
                                        value={this.state.codeName}
                                        onChange={(e) => this.onChangeCodeKeyName(e)}
                             /></td>
-                            {/*<td>john@example.com</td>*/}
-                        </tr>
-                        <tr className="danger">
-                            <td>Description</td>
-                            <td><input type="text"
-                                       value={this.state.description}
-                                       onChange={(e) => this.onChangeDescription(e)}/></td>
-                            {/*<td>mary@example.com</td>*/}
                         </tr>
                         <tr className="info">
-                            <td>Upload Assignment here</td>
+                            <td>Upload Source File here</td>
                             <td>
                                 <div>
                                     <label>Select File</label>
@@ -139,34 +117,27 @@ class Add_Assignment_Component extends React.Component {
                                     />
                                 </div>
                             </td>
-                            {/*<td>july@example.com</td>*/}
-                        </tr>
-                        <tr className="warning">
-                            <td>Due Date</td>
-                            <td><input type="datetime-local"
-                                       value={this.state.dueDate}
-                                       onChange={(e) => this.onChangeDueDate(e)}/></td>
-                            {/*<td>bo@example.com</td>*/}
-                        </tr>
-                        <tr className="active">
-                            <td>Start Date</td>
-                            <td><input type="datetime-local"
-                                       value={this.state.startDate}
-                                       onChange={(e) => this.onChangeStartDate(e)}/></td>
-                            {/*<td>act@example.com</td>*/}
                         </tr>
                         </tbody>
                     </table>
-                    <div className="form-group">
-                        <input type="submit"
-                               value="Add Assignment"
-                               className="btn btn-primary"/>
+                    <div className="row"> 
+                        <div className="col-sm-2">
+                            <input type="submit" value="Upload File" className="btn btn-primary"/>
+                        </div>
+                        <div className="col-sm-2">
+                            {button}
+                        </div>
+                        <div className="col-sm-8"></div>
+                    </div>
+                    <br/><br/>
+                    <div>
+                        {viewMessageSuccessful}
+                        {viewMessageCalcutating}
                     </div>
                 </form>
             </div>
         )
     }
 }
-
 
 export default Add_Assignment_Component;

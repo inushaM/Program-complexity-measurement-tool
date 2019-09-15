@@ -1,19 +1,23 @@
 package com.spm.projectws.model;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  *
  * @author IT17119122   |   Liyange I.M
  */
 @Entity
+@DynamicUpdate(true)
 @Table(name = "sourcecodes")
-public class CodeLine {
+public class CodeLine implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +56,9 @@ public class CodeLine {
             
     @Column(name = "CR")
     private Integer cr;
+    
+    @Transient 
+    private Integer cp;
 
     public Integer getId() {
         return id;
@@ -147,5 +154,13 @@ public class CodeLine {
 
     public void setCr(Integer cr) {
         this.cr = cr;
+    }
+
+    public Integer getCp() {
+        return cp;
+    }
+
+    public void setCp(Integer cp) {
+        this.cp = cp;
     }
 }

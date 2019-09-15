@@ -21,7 +21,7 @@ public interface CodeLineRepository extends JpaRepository<CodeLine, Integer>{
     List<CodeLine> getAllSourceCodebyList(String codeNumber);
     
     @Query(value="SELECT * FROM sourcecodes WHERE ID = ?1 AND CODENUMBER = ?2",nativeQuery=true)
-    CodeLine getARecord(Integer id , String keyNumber);
+     List<CodeLine> getARecord(Integer id , String keyNumber);
     
     @Transactional
     @Modifying
