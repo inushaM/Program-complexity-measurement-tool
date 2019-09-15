@@ -92,9 +92,7 @@ class Add_Assignment_Component extends React.Component {
                     <table className="table">
                         <thead>
                         <tr>
-                            {/*<th></th>*/}
-                            {/*<th></th>*/}
-                            {/*<th></th>*/}
+
                         </tr>
                         </thead>
                         <tbody>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\model\CodeLine.java
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\model\FileDetails.java
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\model\SystemUser.java
@@ -23,3 +24,22 @@ E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measure
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\service\RecursionService.java
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\util\WeightConstant.java
 E:\SLIIT\3rd Year\2nd Semester\SPM\Project\Repository\Program-complexity-measurement-tool\SPMproject-ws\src\main\java\com\spm\projectws\SpmProjectWsApplication.java
+=======
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\service\RecursionService.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\repository\SystemUserRepository.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\CodeLine.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\repository\CodeLineRepository.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\service\CalculateService.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\controller\UserController.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\FileDetails.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\SystemUser.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\repository\CodeRepository.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\LoginResponse.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\service\CodeService.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\SpmProjectWsApplication.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\controller\FileReadAndWriteController.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\CodeFind.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\CommonResponse.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\model\LoginRequest.java
+D:\SPM project\SPMproject-ws\src\main\java\com\spm\projectws\service\SystemUserServiceImpl.java
+>>>>>>> master
